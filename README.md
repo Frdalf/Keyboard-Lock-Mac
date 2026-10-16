@@ -5,101 +5,101 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 [![Platform](https://img.shields.io/badge/platform-Apple%20Silicon%20%7C%20Intel-lightgrey)]()
 
-**Keyboard Lock** adalah aplikasi macOS native yang ringan dan praktis untuk menonaktifkan seluruh input keyboard secara sementara. Sangat ideal saat Anda ingin membersihkan keyboard MacBook atau keyboard eksternal dari debu tanpa harus mematikan Mac, atau untuk mencegah ketikan tidak sengaja dari anak kecil atau hewan peliharaan.
+**Keyboard Lock** is a lightweight, native macOS utility designed to temporarily disable all keyboard input with a single click. It is ideal for safely cleaning your MacBook keyboard or mechanical keyboard without shutting down your Mac, or preventing accidental keystrokes from children or pets.
 
 ---
 
-## ✨ Fitur Utama
+## ✨ Features
 
-- 🔒 **Blokir Menyeluruh (Total Input Lock)**  
-  Menelan seluruh event keyboard termasuk tombol karakter, tombol fungsi (F-keys), tombol media, brightness, volume, hingga tombol modifier menggunakan CoreGraphics `CGEventTap`.
-- ⏱️ **Dua Metode Buka Kunci (Dual Unlock)**:
-  1. **Kombinasi Fisik**: Tahan tombol **`Command Kiri (⌘)` + `Command Kanan (⌘)`** secara bersamaan selama **5 detik** (dilengkapi indikator progress bar dan hitungan mundur real-time).
-  2. **Trackpad / Mouse**: Tombol buka kunci pada jendela aplikasi selalu dapat diklik kapan saja menggunakan kursor.
-- ⚡ **Ringan & Murni Native**  
-  Ditulis 100% menggunakan Swift dan Cocoa tanpa dependensi eksternal pihak ketiga (zero third-party dependencies).
-- 🛡️ **Auto Recovery Event Tap**  
-  Menangani kasus ketika macOS menonaktifkan event tap akibat timeout sistem secara otomatis.
-
----
-
-## 📋 Kebutuhan Sistem
-
-- **macOS 11.0 (Big Sur)** atau versi yang lebih baru (Apple Silicon & Intel).
-- Izin **Accessibility** (Aksesibilitas) pada macOS.
+- 🔒 **Total Keyboard Suppression**  
+  Intercepts and swallows all keyboard events including character keys, function keys (F-keys), media keys, brightness, volume controls, and modifier flags using CoreGraphics `CGEventTap`.
+- ⏱️ **Dual Unlock Mechanism**:
+  1. **Physical Shortcut**: Hold **`Left Command (⌘)` + `Right Command (⌘)`** simultaneously for **5 seconds** (features a real-time progress bar and countdown indicator).
+  2. **Trackpad / Mouse**: The unlock button in the app window can always be clicked using your pointer at any time.
+- ⚡ **Lightweight & Pure Native**  
+  Built 100% with Swift and Cocoa with **zero external dependencies**. No heavy frameworks, fast launch, and minimal memory footprint.
+- 🛡️ **Event Tap Auto-Recovery**  
+  Automatically recovers and re-enables the event tap if macOS disables it due to system timeouts.
 
 ---
 
-## 🚀 Cara Build & Instalasi
+## 📋 Requirements
 
-Anda dapat melakukan build aplikasi ini langsung dari terminal tanpa perlu membuka Xcode:
+- **macOS 11.0 (Big Sur)** or later (Universal binary support: Apple Silicon & Intel).
+- **Accessibility** permission enabled in macOS System Settings.
 
-### 1. Clone Repositori
+---
+
+## 🚀 Building & Installation
+
+You can build the app directly from your terminal without opening Xcode:
+
+### 1. Clone Repository
 ```bash
-git clone https://github.com/Frdalf/keyboard-lock.git
-cd keyboard-lock
+git clone https://github.com/Frdalf/Keyboard-Lock-Mac.git
+cd Keyboard-Lock-Mac
 ```
 
-### 2. Jalankan Build Script
-Pastikan script memiliki izin eksekusi lalu jalankan:
+### 2. Run the Build Script
+Ensure the script is executable, then run:
 ```bash
 chmod +x build.sh
 ./build.sh
 ```
 
-Script akan mengompilasi `KeyboardLock.swift` dengan optimasi `-O`, membungkusnya menjadi bundle `Keyboard Lock.app`, membuat `Info.plist`, dan melakukan ad-hoc code signing.
+This compiles `KeyboardLock.swift` with `-O` compiler optimization, packages it into a `Keyboard Lock.app` bundle with `Info.plist`, and applies an ad-hoc code signature.
 
-### 3. Pindahkan ke Applications
-Pindahkan `Keyboard Lock.app` ke direktori aplikasi Anda:
+### 3. Move to Applications
+Move the newly created `Keyboard Lock.app` to your Applications directory:
 ```bash
 mv "Keyboard Lock.app" /Applications/
 ```
 
 ---
 
-## ⚙️ Pengaturan Izin Aksesibilitas (Accessibility)
+## ⚙️ Accessibility Permissions
 
-Karena aplikasi ini bertugas mencegat dan menahan sinyal input keyboard pada tingkat sistem (via CoreGraphics `CGEventTap`), macOS mewajibkan izin aksesibilitas:
+Because this utility intercepts and suppresses hardware keyboard signals at the system level via CoreGraphics `CGEventTap`, macOS requires Accessibility permission:
 
-1. Buka **System Settings** (Pengaturan Sistem) di Mac Anda.
-2. Pilih menu **Privacy & Security** (Privasi & Keamanan) › **Accessibility** (Aksesibilitas).
-3. Klik tombol **+** atau aktifkan tombol toggle untuk **Keyboard Lock**.
-4. Jika diminta, mulai ulang aplikasi `Keyboard Lock`.
+1. Open **System Settings** on your Mac.
+2. Navigate to **Privacy & Security** › **Accessibility**.
+3. Toggle **ON** the switch for **Keyboard Lock** (or click **+** to add it from `/Applications`).
+4. If prompted, restart `Keyboard Lock`.
 
 > [!NOTE]
-> Jika izin belum diberikan, aplikasi akan menampilkan dialog peringatan dan mengarahkan Anda ke pengaturan sistem.
+> If Accessibility permissions have not been granted yet, the app will automatically prompt you with an alert and direct you to the settings pane.
 
 ---
 
-## 📖 Cara Penggunaan
+## 📖 Usage Guide
 
-1. Buka aplikasi **Keyboard Lock**.
-2. Klik tombol **"Kunci Keyboard"**.
-3. Status akan berubah menjadi `🔒 Keyboard Terkunci`. Sekarang semua tombol fisik keyboard dinonaktifkan dan aman untuk dibersihkan.
-4. Untuk membuka kembali:
-   - Tekan dan tahan **`⌘ Kiri` + `⌘ Kanan`** bersamaan selama **5 detik**, **ATAU**
-   - Klik tombol **"Buka Kunci (klik dengan trackpad)"** menggunakan mouse atau trackpad.
+1. Launch **Keyboard Lock**.
+2. Click the **"Kunci Keyboard"** (Lock Keyboard) button.
+3. The status indicator will switch to `🔒 Keyboard Terkunci`. All physical keyboard keys are now completely suppressed and safe to wipe down or clean.
+4. To unlock:
+   - Press and hold **`Left ⌘` + `Right ⌘`** simultaneously for **5 seconds**, **OR**
+   - Click **"Buka Kunci (klik dengan trackpad)"** using your trackpad or mouse.
 
 ---
 
-## 📂 Struktur File
+## 📂 Project Structure
 
 ```text
-├── KeyboardLock.swift    # Logika penguncian (KeyLocker) & antarmuka aplikasi (AppDelegate)
-├── build.sh              # Script otomatisasi build & packaging .app bundle
-├── .gitignore            # File & folder yang diabaikan oleh Git
-├── LICENSE               # Lisensi MIT
-└── README.md             # Dokumentasi proyek
+├── KeyboardLock.swift    # Core locking logic (KeyLocker) & Cocoa UI (AppDelegate)
+├── build.sh              # Standalone build & .app bundling script
+├── .gitignore            # Git ignore rules for macOS & build artifacts
+├── LICENSE               # MIT License
+└── README.md             # Project documentation
 ```
 
 ---
 
 ## 🛠️ GitHub Actions CI
 
-Repositori ini telah dilengkapi dengan workflow CI otomatis (`.github/workflows/build.yml`) yang memverifikasi bahwa proyek dapat dikompilasi dengan sukses pada runner `macos-latest` setiap kali ada pembaruan kode.
+This repository includes a continuous integration workflow (`.github/workflows/build.yml`) that automatically verifies and builds the application on a `macos-latest` runner on every push and pull request.
 
 ---
 
-## 📄 Lisensi
+## 📄 License
 
-Proyek ini didistribusikan di bawah lisensi **MIT**. Silakan lihat file [LICENSE](LICENSE) untuk informasi lebih lanjut.
+This project is open-source software licensed under the [MIT License](LICENSE).
