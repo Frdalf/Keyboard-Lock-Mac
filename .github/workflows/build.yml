@@ -1,0 +1,27 @@
+name: Build and Verify
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Build Application
+        run: |
+          chmod +x build.sh
+          ./build.sh
+
+      - name: Verify Bundle
+        run: |
+          test -d "Keyboard Lock.app"
+          test -f "Keyboard Lock.app/Contents/MacOS/KeyboardLock"
+          test -f "Keyboard Lock.app/Contents/Info.plist"
+          echo "App bundle successfully verified!"

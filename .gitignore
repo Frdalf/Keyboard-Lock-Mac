@@ -1,0 +1,31 @@
+# macOS System Files
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon?
+._*
+.Spotlight-V100
+.Trashes
+
+# Build Artifacts
+*.app
+*.app/
+*.dSYM/
+*.o
+*.swiftdoc
+*.swiftmodule
+*.swiftinterface
+build/
+DerivedData/
+
+# Swift Package Manager & Xcode (if used in future)
+.build/
+xcuserdata/
+*.xcworkspace/xcuserdata/
+*.xcuserdatad/
+
+# Editors & IDEs
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
