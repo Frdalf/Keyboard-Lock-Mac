@@ -27,7 +27,21 @@ final class KeyLocker {
             CGEventType.keyDown.rawValue,
             CGEventType.keyUp.rawValue,
             CGEventType.flagsChanged.rawValue,
-            14 // NX_SYSDEFINED: tombol media, brightness, volume
+            14, // NX_SYSDEFINED: tombol media, brightness, volume
+            // Trackpad / mouse
+            CGEventType.leftMouseDown.rawValue,
+            CGEventType.leftMouseUp.rawValue,
+            CGEventType.rightMouseDown.rawValue,
+            CGEventType.rightMouseUp.rawValue,
+            CGEventType.otherMouseDown.rawValue,
+            CGEventType.otherMouseUp.rawValue,
+            CGEventType.mouseMoved.rawValue,
+            CGEventType.leftMouseDragged.rawValue,
+            CGEventType.rightMouseDragged.rawValue,
+            CGEventType.otherMouseDragged.rawValue,
+            CGEventType.scrollWheel.rawValue,
+            // Gesture trackpad: rotate, begin/end gesture, gesture, magnify, swipe, smart zoom, force click
+            18, 19, 20, 29, 30, 31, 32, 34
         ]
         let mask = types.reduce(CGEventMask(0)) { $0 | (CGEventMask(1) << $1) }
 
@@ -184,11 +198,12 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
     func refresh() {
         let locked = KeyLocker.shared.isLocked
-        statusLabel.stringValue = locked ? "🔒 Keyboard Terkunci" : "⌨️ Keyboard Aktif"
+        statusLabel.stringValue = locked ? "🔒 Keyboard & Trackpad Terkunci" : "⌨️ Keyboard & Trackpad Aktif"
         hintLabel.stringValue = locked
             ? "Untuk membuka: tahan ⌘ kiri + ⌘ kanan bersamaan selama 5 detik."
-            : "Klik tombol di bawah, lalu bersihkan keyboard dengan tenang."
-        button.title = locked ? "Buka Kunci (klik dengan trackpad)" : "Kunci Keyboard"
+            : "Klik tombol di bawah, lalu bersihkan keyboard dan trackpad dengan tenang."
+        button.title = locked ? "Terkunci" : "Kunci Keyboard & Trackpad"
+        button.isEnabled = !locked
     }
 
     @objc func toggle() {

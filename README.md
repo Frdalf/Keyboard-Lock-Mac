@@ -1,105 +1,64 @@
-# ⌨️ Keyboard Lock for macOS
+# Keyboard Lock
 
-[![macOS](https://img.shields.io/badge/macOS-11.0%2B-blue?logo=apple&logoColor=white)](https://apple.com)
-[![Swift](https://img.shields.io/badge/Swift-5.0%2B-orange?logo=swift&logoColor=white)](https://swift.org)
-[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
-[![Platform](https://img.shields.io/badge/platform-Apple%20Silicon%20%7C%20Intel-lightgrey)]()
+A lightweight macOS application to temporarily lock the **keyboard and trackpad**, designed for safely cleaning your MacBook or external keyboard.
 
-**Keyboard Lock** is a lightweight, native macOS utility designed to temporarily disable all keyboard input with a single click. It is ideal for safely cleaning your MacBook keyboard or mechanical keyboard without shutting down your Mac, or preventing accidental keystrokes from children or pets.
+## Features
 
----
+- One click to lock all keyboard input: standard keys, modifier keys, media, brightness, and volume controls.
+- Trackpad locking: cursor movement, clicks, scrolling, drags, multi-touch gestures (pinch, swipe, rotate), and force clicks.
+- Unlock by holding **Left ⌘ + Right ⌘** simultaneously for **5 seconds**. Features a countdown progress bar; releasing either key resets the countdown.
+- Native Swift (AppKit) with zero external dependencies.
 
-## ✨ Features
+## Requirements
 
-- 🔒 **Total Keyboard Suppression**  
-  Intercepts and swallows all keyboard events including character keys, function keys (F-keys), media keys, brightness, volume controls, and modifier flags using CoreGraphics `CGEventTap`.
-- ⏱️ **Dual Unlock Mechanism**:
-  1. **Physical Shortcut**: Hold **`Left Command (⌘)` + `Right Command (⌘)`** simultaneously for **5 seconds** (features a real-time progress bar and countdown indicator).
-  2. **Trackpad / Mouse**: The unlock button in the app window can always be clicked using your pointer at any time.
-- ⚡ **Lightweight & Pure Native**  
-  Built 100% with Swift and Cocoa with **zero external dependencies**. No heavy frameworks, fast launch, and minimal memory footprint.
-- 🛡️ **Event Tap Auto-Recovery**  
-  Automatically recovers and re-enables the event tap if macOS disables it due to system timeouts.
+- macOS 11 (Big Sur) or later
+- Xcode or Xcode Command Line Tools (`xcode-select --install`)
 
----
+## Build & Install
 
-## 📋 Requirements
-
-- **macOS 11.0 (Big Sur)** or later (Universal binary support: Apple Silicon & Intel).
-- **Accessibility** permission enabled in macOS System Settings.
-
----
-
-## 🚀 Building & Installation
-
-You can build the app directly from your terminal without opening Xcode:
-
-### 1. Clone Repository
 ```bash
-git clone https://github.com/Frdalf/Keyboard-Lock-Mac.git
-cd Keyboard-Lock-Mac
-```
-
-### 2. Run the Build Script
-Ensure the script is executable, then run:
-```bash
-chmod +x build.sh
-./build.sh
-```
-
-This compiles `KeyboardLock.swift` with `-O` compiler optimization, packages it into a `Keyboard Lock.app` bundle with `Info.plist`, and applies an ad-hoc code signature.
-
-### 3. Move to Applications
-Move the newly created `Keyboard Lock.app` to your Applications directory:
-```bash
+git clone https://github.com/<username>/keyboard-lock.git
+cd keyboard-lock
+bash build.sh
 mv "Keyboard Lock.app" /Applications/
+open "/Applications/Keyboard Lock.app"
 ```
 
----
+## Accessibility Permission
 
-## ⚙️ Accessibility Permissions
+This application requires Accessibility permission to capture and block keyboard and trackpad inputs.
 
-Because this utility intercepts and suppresses hardware keyboard signals at the system level via CoreGraphics `CGEventTap`, macOS requires Accessibility permission:
+1. Click **Kunci Keyboard & Trackpad** (Lock Keyboard & Trackpad). macOS will prompt you for permission.
+2. Open **System Settings › Privacy & Security › Accessibility**, then enable **Keyboard Lock**.
+3. Quit the app (⌘Q) and reopen it.
 
-1. Open **System Settings** on your Mac.
-2. Navigate to **Privacy & Security** › **Accessibility**.
-3. Toggle **ON** the switch for **Keyboard Lock** (or click **+** to add it from `/Applications`).
-4. If prompted, restart `Keyboard Lock`.
+Every time you rebuild the application, its ad-hoc code signature changes, causing macOS to invalidate previously granted permissions. You can reset it using:
 
-> [!NOTE]
-> If Accessibility permissions have not been granted yet, the app will automatically prompt you with an alert and direct you to the settings pane.
-
----
-
-## 📖 Usage Guide
-
-1. Launch **Keyboard Lock**.
-2. Click the **"Kunci Keyboard"** (Lock Keyboard) button.
-3. The status indicator will switch to `🔒 Keyboard Terkunci`. All physical keyboard keys are now completely suppressed and safe to wipe down or clean.
-4. To unlock:
-   - Press and hold **`Left ⌘` + `Right ⌘`** simultaneously for **5 seconds**, **OR**
-   - Click **"Buka Kunci (klik dengan trackpad)"** using your trackpad or mouse.
-
----
-
-## 📂 Project Structure
-
-```text
-├── KeyboardLock.swift    # Core locking logic (KeyLocker) & Cocoa UI (AppDelegate)
-├── build.sh              # Standalone build & .app bundling script
-├── .gitignore            # Git ignore rules for macOS & build artifacts
-├── LICENSE               # MIT License
-└── README.md             # Project documentation
+```bash
+tccutil reset Accessibility id.farid.keyboardlock
 ```
 
----
+## How to Use
 
-## 🛠️ GitHub Actions CI
+1. Launch the app and click **Kunci Keyboard & Trackpad**.
+2. Clean your keyboard and trackpad safely.
+3. Hold **Left ⌘ + Right ⌘** together for 5 seconds to unlock.
 
-This repository includes a continuous integration workflow (`.github/workflows/build.yml`) that automatically verifies and builds the application on a `macos-latest` runner on every push and pull request.
+> ⚠️ While locked, the trackpad is also disabled, meaning the only way to unlock is by pressing Left ⌘ + Right ⌘ simultaneously. Test this unlock combination before cleaning. In an emergency, press and hold the power button to force shut down your Mac; input lock will reset upon reboot.
 
----
+## How It Works
 
-## 📄 License
+The app uses `CGEventTap` at the session level to intercept keyboard events (`keyDown`, `keyUp`, `flagsChanged`, `NX_SYSDEFINED`) as well as mouse, trackpad, and gesture events, suppressing them from reaching the system. The state of Left ⌘ and Right ⌘ is detected via device-specific flags (`0x08` and `0x10`) inside `flagsChanged` events.
 
-This project is open-source software licensed under the [MIT License](LICENSE).
+> **Note:** Hardware power buttons and Touch ID cannot be intercepted by regular user applications.
+
+## Project Structure
+
+```
+KeyboardLock.swift   # Application source code
+build.sh             # Script to build .app bundle & apply ad-hoc codesign
+```
+
+## License
+
+MIT
